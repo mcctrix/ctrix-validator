@@ -566,6 +566,31 @@ func (v *validatorApp) CreditCard() *validatorApp {
 	return v
 }
 
+/*
+this function checks if the field is a valid ip address
+
+returns: *validatorApp
+*/
+func (v *validatorApp) IPAddress() *validatorApp {
+	if v.commonReturnCase() {
+		return v
+	}
+	switch v.data.(type) {
+	case string:
+		if len(v.data.(string)) > 0 {
+			ipAddressRegex := regexp.MustCompile(`^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$`)
+			if ipAddressRegex.MatchString(v.data.(string)) {
+				return v
+			}
+		}
+		v.appendError(validationError{
+			Field:   v.fieldName,
+			Message: "must be a valid ip address",
+		})
+	}
+	return v
+}
+
 func (v *validatorApp) appendError(err validationError) {
 	v.errors = append(v.errors, err)
 	v.foundErr = true
