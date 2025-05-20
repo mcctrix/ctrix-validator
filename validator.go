@@ -57,7 +57,8 @@ func (v *validatorApp) Email() *validatorApp {
 	case string:
 		if len(v.data.(string)) > 0 {
 			str := v.data.(string)
-			emailRegex := regexp.MustCompile(`^[a-zA-Z0-9.!#$%&'*+/=?^_` + "`" + `{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$`)
+			// Email pattern compliant with most RFCs while still using Go's RE2 engine
+			emailRegex := regexp.MustCompile(`^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$`)
 			if emailRegex.MatchString(str) {
 				return v
 			}
