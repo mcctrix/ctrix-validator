@@ -541,6 +541,11 @@ func (v *validatorApp) PhoneNumber() *validatorApp {
 	return v
 }
 
+/*
+This function checks if the field is a valid credit card number
+
+returns: *validatorApp
+*/
 func (v *validatorApp) CreditCard() *validatorApp {
 	if v.commonReturnCase() {
 		return v
