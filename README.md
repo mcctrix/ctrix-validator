@@ -1,6 +1,8 @@
-# CTRIX Validator
+# Ctrix Validator
 
 A lightweight and chainable Go validation library designed for fast development, focusing on a "first error per field" approach.
+This library is inspired Chaining Validation from other languages.
+
 
 ## Features
 
@@ -17,7 +19,7 @@ A lightweight and chainable Go validation library designed for fast development,
 To use this library, you can fetch it using `go get`:
 
 ```bash
-go get [github.com/mcctrix/ctrix-validator](https://github.com/mcctrix/ctrix-validator)
+go get https://github.com/mcctrix/ctrix-validator
 
 ```
 
@@ -33,8 +35,12 @@ import (
 )
 
 func main() {
-	validator := validator.NewValidator("email", "test@test.com")
-	validator.NextField("email", "test@test.com").Email().Min(5).Max(10).HasSpecialChar()
+	validator := validator.NewValidator("email", "test@test.com").Email().Min(5).Max(10).HasSpecialChar()
+	validator.NextField("url", "https://google.com").Url()
+    validator.NextField("number", 10).Min(5).Max(15)
+    validator.NextField("float", 10.5).Min(5).Max(15)
+    validator.NextField("username", "ctrix").min(5).max(10)
+    
 	if len(validator.GetError()) > 0 {
 		for _, err := range validator.GetError() {
 			println(err.Field, err.Message)
