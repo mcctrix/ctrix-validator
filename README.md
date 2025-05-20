@@ -35,13 +35,13 @@ import (
 )
 
 func main() {
-	validator := validator.NewValidator("email", "test@test.com").Email().Min(5).Max(10).HasSpecialChar()
-	validator.NextField("url", "https://google.com").Url()
-    validator.NextField("number", 10).Min(5).Max(15)
-    validator.NextField("float", 10.5).Min(5).Max(15)
-    validator.NextField("username", "ctrix").min(5).max(10)
+	vApp := validator.NewValidator("email", "test@test.com").Email().Min(5).Max(10).HasSpecialChar()
+	vApp.NextField("url", "https://google.com").Url()
+    vApp.NextField("number", 10).Min(5).Max(15)
+    vApp.NextField("float", 10.5).Min(5).Max(15)
+    vApp.NextField("username", "ctrix").min(5).max(10)
     
-	if len(validator.GetError()) > 0 {
+	if err := vApp.GetError(); err != nil {
 		for _, err := range validator.GetError() {
 			println(err.Field, err.Message)
 		}
