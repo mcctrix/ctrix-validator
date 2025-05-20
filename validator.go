@@ -371,6 +371,26 @@ func (v *validatorApp) GetError() []validationError {
 	return v.errors
 }
 
+/*
+Allow custom error messages
+
+- fieldName: name of the field
+
+- message: custom error message
+
+- returns: *validatorApp
+*/
+func (v *validatorApp) ChangeErrorMessage(fieldName string, message string) *validatorApp {
+	if len(v.errors) > 0 {
+		for index, err := range v.errors {
+			if err.Field == fieldName {
+				v.errors[index].Message = message
+			}
+		}
+	}
+	return v
+}
+
 /* Allow transformation during validation */
 func (v *validatorApp) Transform(fn func(interface{}) interface{}) *validatorApp {
 	if v.commonReturnCase() {
