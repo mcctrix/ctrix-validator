@@ -194,6 +194,9 @@ This function returns the errors
 returns: *validatorApp
 */
 func (v *validatorApp) GetError() []validationError {
+	if len(v.errors) == 0 {
+		return nil
+	}
 	return v.errors
 }
 
