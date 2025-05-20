@@ -159,7 +159,12 @@ func (v *validatorApp) Url() *validatorApp {
 	switch v.data.(type) {
 	case string:
 		if len(v.data.(string)) > 0 {
-			urlRegex := regexp.MustCompile(`^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$`)
+			urlRegex := regexp.MustCompile(`^(https?|ftp):\/\/` + // protocol
+				`(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*` + // subdomains
+				`([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])` + // domain name
+				`(:\d+)?` + // port
+				`(\/[-a-zA-Z0-9_%\.~#?&=]*)*$`) // path, query params, fragment
+
 			if urlRegex.MatchString(v.data.(string)) {
 				return v
 			}
