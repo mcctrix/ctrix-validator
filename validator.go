@@ -541,6 +541,26 @@ func (v *validatorApp) PhoneNumber() *validatorApp {
 	return v
 }
 
+func (v *validatorApp) CreditCard() *validatorApp {
+	if v.commonReturnCase() {
+		return v
+	}
+	switch v.data.(type) {
+	case string:
+		if len(v.data.(string)) > 0 {
+			creditCardRegex := regexp.MustCompile(`^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11})$`)
+			if creditCardRegex.MatchString(v.data.(string)) {
+				return v
+			}
+		}
+		v.appendError(validationError{
+			Field:   v.fieldName,
+			Message: "must be a valid credit card number",
+		})
+	}
+	return v
+}
+
 func (v *validatorApp) appendError(err validationError) {
 	v.errors = append(v.errors, err)
 	v.foundErr = true
