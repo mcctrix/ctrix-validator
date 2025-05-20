@@ -344,6 +344,135 @@ func (v *validatorApp) Url() *validatorApp {
 	return v
 }
 
+/*
+This function checks if the field contains only alphabets
+
+returns: *validatorApp
+*/
+func (v *validatorApp) Alpha() *validatorApp {
+	if v.commonReturnCase() {
+		return v
+	}
+
+	switch v.data.(type) {
+	case string:
+		if len(v.data.(string)) > 0 {
+			alphaRegex := regexp.MustCompile(`^[a-zA-Z]+$`)
+			if alphaRegex.MatchString(v.data.(string)) {
+				return v
+			}
+		}
+		v.appendError(validationError{
+			Field:   v.fieldName,
+			Message: "must contain only alphabets",
+		})
+	}
+	return v
+}
+
+/*
+This function checks if the field contains only Numeric Values
+
+returns: *validatorApp
+*/
+func (v *validatorApp) Numeric() *validatorApp {
+	if v.commonReturnCase() {
+		return v
+	}
+
+	switch v.data.(type) {
+	case string:
+		if len(v.data.(string)) > 0 {
+			numericRegex := regexp.MustCompile(`^[0-9]+$`)
+			if numericRegex.MatchString(v.data.(string)) {
+				return v
+			}
+		}
+		v.appendError(validationError{
+			Field:   v.fieldName,
+			Message: "must contain only numbers",
+		})
+	}
+	return v
+}
+
+/*
+This function checks if the field contains only AlphaNumeric Values
+
+returns: *validatorApp
+*/
+func (v *validatorApp) AlphaNumeric() *validatorApp {
+	if v.commonReturnCase() {
+		return v
+	}
+
+	switch v.data.(type) {
+	case string:
+		if len(v.data.(string)) > 0 {
+			alphaNumericRegex := regexp.MustCompile(`^[a-zA-Z0-9]+$`)
+			if alphaNumericRegex.MatchString(v.data.(string)) {
+				return v
+			}
+		}
+		v.appendError(validationError{
+			Field:   v.fieldName,
+			Message: "must contain only alphabets and numbers",
+		})
+	}
+	return v
+}
+
+/*
+This function checks if the field contains Valid Date
+
+returns: *validatorApp
+*/
+func (v *validatorApp) Date() *validatorApp {
+	if v.commonReturnCase() {
+		return v
+	}
+
+	switch v.data.(type) {
+	case string:
+		if len(v.data.(string)) > 0 {
+			dateRegex := regexp.MustCompile(`^\d{4}-\d{2}-\d{2}$`)
+			if dateRegex.MatchString(v.data.(string)) {
+				return v
+			}
+		}
+		v.appendError(validationError{
+			Field:   v.fieldName,
+			Message: "must be a valid date",
+		})
+	}
+	return v
+}
+
+/*
+This function checks if the field matches the pattern
+
+returns: *validatorApp
+*/
+func (v *validatorApp) Match(pattern *regexp.Regexp) *validatorApp {
+	if v.commonReturnCase() {
+		return v
+	}
+
+	switch v.data.(type) {
+	case string:
+		if len(v.data.(string)) > 0 {
+			if pattern.MatchString(v.data.(string)) {
+				return v
+			}
+		}
+		v.appendError(validationError{
+			Field:   v.fieldName,
+			Message: "must match the pattern",
+		})
+	}
+	return v
+}
+
 func (v *validatorApp) appendError(err validationError) {
 	v.errors = append(v.errors, err)
 	v.foundErr = true
