@@ -371,6 +371,15 @@ func (v *validatorApp) GetError() []validationError {
 	return v.errors
 }
 
+/* Allow transformation during validation */
+func (v *validatorApp) Transform(fn func(interface{}) interface{}) *validatorApp {
+	if v.commonReturnCase() {
+		return v
+	}
+	v.data = fn(v.data)
+	return v
+}
+
 func (v *validatorApp) commonReturnCase() bool {
 	var dataNullish bool
 
