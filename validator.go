@@ -473,6 +473,49 @@ func (v *validatorApp) Match(pattern *regexp.Regexp) *validatorApp {
 	return v
 }
 
+/*
+This function applies validations conditionally if the provided condition is true
+
+- condition: A function that evaluates to a boolean
+- validations: A function that applies validations to the validator
+
+returns: *validatorApp
+
+Example:
+
+	validator := NewValidator("password", password).
+	    When(
+	        func() bool {
+	            return userType == "admin"
+	        },
+	        func(v *validatorApp) *validatorApp {
+	            return v.Min(12).HasSpecialChar()
+	        },
+	    ).
+	    When(
+	        func() bool {
+	            return userType == "regular"
+	        },
+	        func(v *validatorApp) *validatorApp {
+	            return v.Min(8)
+	        },
+	    )
+*/
+// func (v *validatorApp) When(condition func() bool, validations func(*validatorApp) *validatorApp) *validatorApp {
+// 	// Skip this if we've already found errors or it's an optional empty field
+// 	if v.commonReturnCase() {
+// 		return v
+// 	}
+
+// 	// If the condition is true, run the validations
+// 	if condition() {
+// 		return validations(v)
+// 	}
+
+// 	// Otherwise, just return the validator as is
+// 	return v
+// }
+
 func (v *validatorApp) appendError(err validationError) {
 	v.errors = append(v.errors, err)
 	v.foundErr = true
