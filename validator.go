@@ -82,29 +82,112 @@ func (v *validatorApp) Min(length int) *validatorApp {
 		return v
 	}
 
+	errMessage := "must be greater than or equal to " + strconv.Itoa(length)
+
 	switch v.data.(type) {
 	case string:
 		if len(v.data.(string)) < length {
 			v.appendError(validationError{
 				Field:   v.fieldName,
-				Message: "must be greater than or equal to " + strconv.Itoa(length),
+				Message: errMessage,
 			})
 		}
 	case int:
 		if v.data.(int) < length {
 			v.appendError(validationError{
 				Field:   v.fieldName,
-				Message: "must be greater than or equal to " + strconv.Itoa(length),
+				Message: errMessage,
 			})
 
 		}
+	case int16:
+		if v.data.(int16) < int16(length) {
+			v.appendError(validationError{
+				Field:   v.fieldName,
+				Message: errMessage,
+			})
+
+		}
+	case int32:
+		if v.data.(int32) < int32(length) {
+			v.appendError(validationError{
+				Field:   v.fieldName,
+				Message: errMessage,
+			})
+
+		}
+	case int64:
+		if v.data.(int64) < int64(length) {
+			v.appendError(validationError{
+				Field:   v.fieldName,
+				Message: errMessage,
+			})
+
+		}
+	case int8:
+		if v.data.(int8) < int8(length) {
+			v.appendError(validationError{
+				Field:   v.fieldName,
+				Message: errMessage,
+			})
+
+		}
+	case uint:
+		if v.data.(uint8) < uint8(length) {
+			v.appendError(validationError{
+				Field:   v.fieldName,
+				Message: errMessage,
+			})
+
+		}
+	case uint8:
+		if v.data.(uint8) < uint8(length) {
+			v.appendError(validationError{
+				Field:   v.fieldName,
+				Message: errMessage,
+			})
+
+		}
+	case uint16:
+		if v.data.(uint16) < uint16(length) {
+			v.appendError(validationError{
+				Field:   v.fieldName,
+				Message: errMessage,
+			})
+
+		}
+	case uint32:
+		if v.data.(uint32) < uint32(length) {
+			v.appendError(validationError{
+				Field:   v.fieldName,
+				Message: errMessage,
+			})
+		}
+	case uint64:
+		if v.data.(uint64) < uint64(length) {
+			v.appendError(validationError{
+				Field:   v.fieldName,
+				Message: errMessage,
+			})
+
+		}
+	case float32:
+		if v.data.(float32) < float32(length) {
+			v.appendError(validationError{
+				Field:   v.fieldName,
+				Message: errMessage,
+			})
+
+		}
+
 	case float64:
 		if v.data.(float64) < float64(length) {
 			v.appendError(validationError{
 				Field:   v.fieldName,
-				Message: "must be greater than or equal to " + strconv.Itoa(length),
+				Message: errMessage,
 			})
 		}
+
 	}
 	return v
 }
@@ -118,12 +201,15 @@ func (v *validatorApp) Max(length int) *validatorApp {
 	if v.commonReturnCase() {
 		return v
 	}
+
+	errMessage := "must be less than or equal to " + strconv.Itoa(length)
+
 	switch v.data.(type) {
 	case string:
 		if len(v.data.(string)) > length {
 			v.appendError(validationError{
 				Field:   v.fieldName,
-				Message: "must be less than or equal to " + strconv.Itoa(length),
+				Message: errMessage,
 			})
 
 		}
@@ -131,17 +217,96 @@ func (v *validatorApp) Max(length int) *validatorApp {
 		if v.data.(int) > length {
 			v.appendError(validationError{
 				Field:   v.fieldName,
-				Message: "must be less than or equal to " + strconv.Itoa(length),
+				Message: errMessage,
 			})
 
 		}
-	case float64:
-		if v.data.(float64) >= float64(length) {
+	case int16:
+		if v.data.(int16) > int16(length) {
 			v.appendError(validationError{
 				Field:   v.fieldName,
-				Message: "must be less than or equal to " + strconv.Itoa(length),
+				Message: errMessage,
 			})
 
+		}
+	case int32:
+		if v.data.(int32) > int32(length) {
+			v.appendError(validationError{
+				Field:   v.fieldName,
+				Message: errMessage,
+			})
+
+		}
+	case int64:
+		if v.data.(int64) > int64(length) {
+			v.appendError(validationError{
+				Field:   v.fieldName,
+				Message: errMessage,
+			})
+
+		}
+	case int8:
+		if v.data.(int8) > int8(length) {
+			v.appendError(validationError{
+				Field:   v.fieldName,
+				Message: errMessage,
+			})
+
+		}
+	case uint:
+		if v.data.(uint8) > uint8(length) {
+			v.appendError(validationError{
+				Field:   v.fieldName,
+				Message: errMessage,
+			})
+
+		}
+	case uint8:
+		if v.data.(uint8) > uint8(length) {
+			v.appendError(validationError{
+				Field:   v.fieldName,
+				Message: errMessage,
+			})
+
+		}
+	case uint16:
+		if v.data.(uint16) > uint16(length) {
+			v.appendError(validationError{
+				Field:   v.fieldName,
+				Message: errMessage,
+			})
+
+		}
+	case uint32:
+		if v.data.(uint32) > uint32(length) {
+			v.appendError(validationError{
+				Field:   v.fieldName,
+				Message: errMessage,
+			})
+		}
+	case uint64:
+		if v.data.(uint64) > uint64(length) {
+			v.appendError(validationError{
+				Field:   v.fieldName,
+				Message: errMessage,
+			})
+
+		}
+	case float32:
+		if v.data.(float32) > float32(length) {
+			v.appendError(validationError{
+				Field:   v.fieldName,
+				Message: errMessage,
+			})
+
+		}
+
+	case float64:
+		if v.data.(float64) > float64(length) {
+			v.appendError(validationError{
+				Field:   v.fieldName,
+				Message: errMessage,
+			})
 		}
 	}
 	return v
