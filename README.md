@@ -9,7 +9,7 @@ This library is inspired Chaining Validation from other languages.
 - **"First Error Per Field":** Validation for a given field stops after the first error is detected for that field.
 - **Default Required:** All fields are considered required by default.
 - **Optional Fields:** Easily mark fields as optional using `.NotRequired()`.
-- **Graceful `nil` Handling:** Optional fields with `nil` data are skipped entirely, incurring no errors.
+- **Graceful nullish Handling:** Optional fields with nullish data are skipped entirely, incurring no errors.
 - **Concise Error Reporting:** Collects and returns a slice of `validationError` structs.
 - **Silent Type Mismatch Skipping:** Designed for rapid development, type mismatches during validation (e.g., calling `Email()` on an `int`) will result in the specific validation rule being silently skipped without adding an error.
 
@@ -18,7 +18,7 @@ This library is inspired Chaining Validation from other languages.
 To use this library, you can fetch it using `go get`:
 
 ```bash
-go get https://github.com/mcctrix/ctrix-validator
+go get github.com/mcctrix/ctrix-validator
 
 ```
 
