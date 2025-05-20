@@ -516,6 +516,31 @@ Example:
 // 	return v
 // }
 
+/*
+This function checks if the field is a valid phone number
+
+returns: *validatorApp
+*/
+func (v *validatorApp) PhoneNumber() *validatorApp {
+	if v.commonReturnCase() {
+		return v
+	}
+	switch v.data.(type) {
+	case string:
+		if len(v.data.(string)) > 0 {
+			phoneRegex := regexp.MustCompile(`^\+?[0-9]{10,15}$`)
+			if phoneRegex.MatchString(v.data.(string)) {
+				return v
+			}
+		}
+		v.appendError(validationError{
+			Field:   v.fieldName,
+			Message: "must be a valid phone number",
+		})
+	}
+	return v
+}
+
 func (v *validatorApp) appendError(err validationError) {
 	v.errors = append(v.errors, err)
 	v.foundErr = true
