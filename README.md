@@ -31,28 +31,28 @@ go get https://github.com/mcctrix/ctrix-validator
 package main
 
 import (
-	"github.com/mcctrix/ctrix-validator"
+	validator "github.com/mcctrix/ctrix-validator"
 )
 
 func main() {
-	vApp := validator.NewValidator("email", "test@test.com").Email().Min(5).Max(10).HasSpecialChar()
+	vApp := validator.NewValidator("email", "test@test.com").Email().Min(5).Max(30).HasSpecialChar()
 	vApp.NextField("url", "https://google.com").Url()
-    vApp.NextField("number", 10).Min(5).Max(15)
-    vApp.NextField("float", 10.5).Min(5).Max(15)
-    vApp.NextField("username", "ctrix").min(5).max(10)
-    
+	vApp.NextField("number", 10).Min(5).Max(15)
+	vApp.NextField("float", 10.5).Min(5).Max(15)
+	vApp.NextField("username", "ctrix").Min(4).Max(10).HasSpecialChar()
+
 	if err := vApp.GetError(); err != nil {
-		for _, err := range validator.GetError() {
+		for _, err := range vApp.GetError() {
 			println(err.Field, err.Message)
 		}
 	}
 }
+```go
 ```
 
 Output:
 
 ```
-email must be a valid email
+username must contain at least one special character
 ```
 
-```go
