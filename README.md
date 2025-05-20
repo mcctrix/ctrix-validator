@@ -92,17 +92,16 @@ func main() {
 		return c.SendString("Data is Successfully added!")
 	})
 }
-```go
 ````
 
 Payload:
 
 ```
 {
-  "username": "ctrix",
+   "username": "ctrix",
    "email": "ctrix@gmail.com",
-  "password": "123456798",
-  "questNum": 25
+   "password": "123456798",
+   "questNum": 25
 }
 ```
 
@@ -114,3 +113,5 @@ Error:
   "Message": "must be greater than or equal to 5"
 }
 ```
+
+Note: In this example we are sending the first error that occurs in the chain. however getError() has details of all the errors that happened accross all the fields
