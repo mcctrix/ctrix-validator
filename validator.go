@@ -221,6 +221,13 @@ func (v *validatorApp) commonReturnCase() bool {
 	if dataNullish && !v.requiredField {
 		return true
 	}
+	if dataNullish && v.requiredField {
+		v.appendError(validationError{
+			Field:   v.fieldName,
+			Message: "Field is Required",
+		})
+		return true
+	}
 
 	if v.foundErr {
 		return true
