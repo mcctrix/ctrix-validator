@@ -236,7 +236,7 @@ func (v *validatorApp) NextField(fieldName string, data interface{}) *validatorA
 
 - Note: By Default field is considered required, please use NotRequired() immeadiately after to make it optional
 */
-func NewValidator(fieldName string, data interface{}) (*validatorApp, error) {
+func NewValidator(fieldName string, data interface{}) *validatorApp {
 	vApp := &validatorApp{
 		fieldName:     fieldName,
 		data:          data,
@@ -244,5 +244,5 @@ func NewValidator(fieldName string, data interface{}) (*validatorApp, error) {
 		foundErr:      false,
 		requiredField: true,
 	}
-	return vApp, nil
+	return vApp
 }
