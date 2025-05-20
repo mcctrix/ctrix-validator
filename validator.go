@@ -119,7 +119,7 @@ func (v *validatorApp) Max(length int) *validatorApp {
 	}
 	switch v.data.(type) {
 	case string:
-		if len(v.data.(string)) >= length {
+		if len(v.data.(string)) > length {
 			v.appendError(validationError{
 				Field:   v.fieldName,
 				Message: "must be less than or equal to " + strconv.Itoa(length),
@@ -127,7 +127,7 @@ func (v *validatorApp) Max(length int) *validatorApp {
 
 		}
 	case int:
-		if v.data.(int) >= length {
+		if v.data.(int) > length {
 			v.appendError(validationError{
 				Field:   v.fieldName,
 				Message: "must be less than or equal to " + strconv.Itoa(length),
