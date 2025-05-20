@@ -18,6 +18,11 @@ type validatorApp struct {
 	foundErr      bool
 }
 
+/*
+This function checks if the field contains any special character
+
+returns: *validatorApp
+*/
 func (v *validatorApp) HasSpecialChar() *validatorApp {
 	if v.commonReturnCase() {
 		return v
@@ -39,6 +44,11 @@ func (v *validatorApp) HasSpecialChar() *validatorApp {
 	return v
 }
 
+/*
+This function checks if the field is a valid email
+
+returns: *validatorApp
+*/
 func (v *validatorApp) Email() *validatorApp {
 	if v.commonReturnCase() {
 		return v
@@ -60,6 +70,11 @@ func (v *validatorApp) Email() *validatorApp {
 	return v
 }
 
+/*
+This function checks if the field has minimum length
+
+returns: *validatorApp
+*/
 func (v *validatorApp) Min(length int) *validatorApp {
 
 	if v.commonReturnCase() {
@@ -92,6 +107,12 @@ func (v *validatorApp) Min(length int) *validatorApp {
 	}
 	return v
 }
+
+/*
+This function checks if the field has maximum length
+
+returns: *validatorApp
+*/
 func (v *validatorApp) Max(length int) *validatorApp {
 	if v.commonReturnCase() {
 		return v
@@ -125,6 +146,11 @@ func (v *validatorApp) Max(length int) *validatorApp {
 	return v
 }
 
+/*
+This function checks if the field is a valid url
+
+returns: *validatorApp
+*/
 func (v *validatorApp) Url() *validatorApp {
 	if v.commonReturnCase() {
 		return v
@@ -152,11 +178,21 @@ func (v *validatorApp) appendError(err validationError) {
 	v.foundErr = true
 }
 
+/*
+This function makes the field optional
+
+returns: *validatorApp
+*/
 func (v *validatorApp) NotRequired() *validatorApp {
 	v.requiredField = false
 	return v
 }
 
+/*
+This function returns the errors
+
+returns: *validatorApp
+*/
 func (v *validatorApp) GetError() []validationError {
 	return v.errors
 }
