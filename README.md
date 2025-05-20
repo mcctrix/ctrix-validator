@@ -3,16 +3,15 @@
 A lightweight and chainable Go validation library designed for fast development, focusing on a "first error per field" approach.
 This library is inspired Chaining Validation from other languages.
 
-
 ## Features
 
-* **Fluent Chaining API:** Apply multiple validation rules to a field in a concise, readable chain.
-* **"First Error Per Field":** Validation for a given field stops after the first error is detected for that field.
-* **Default Required:** All fields are considered required by default.
-* **Optional Fields:** Easily mark fields as optional using `.NotRequired()`.
-* **Graceful `nil` Handling:** Optional fields with `nil` data are skipped entirely, incurring no errors.
-* **Concise Error Reporting:** Collects and returns a slice of `validationError` structs.
-* **Silent Type Mismatch Skipping:** Designed for rapid development, type mismatches during validation (e.g., calling `Email()` on an `int`) will result in the specific validation rule being silently skipped without adding an error.
+- **Fluent Chaining API:** Apply multiple validation rules to a field in a concise, readable chain.
+- **"First Error Per Field":** Validation for a given field stops after the first error is detected for that field.
+- **Default Required:** All fields are considered required by default.
+- **Optional Fields:** Easily mark fields as optional using `.NotRequired()`.
+- **Graceful `nil` Handling:** Optional fields with `nil` data are skipped entirely, incurring no errors.
+- **Concise Error Reporting:** Collects and returns a slice of `validationError` structs.
+- **Silent Type Mismatch Skipping:** Designed for rapid development, type mismatches during validation (e.g., calling `Email()` on an `int`) will result in the specific validation rule being silently skipped without adding an error.
 
 ## Installation
 
@@ -27,7 +26,7 @@ go get https://github.com/mcctrix/ctrix-validator
 
 ### Basic Usage
 
-```go
+````go
 package main
 
 import (
@@ -48,11 +47,70 @@ func main() {
 	}
 }
 ```go
-```
+````
 
 Output:
-
-```
 username must contain at least one special character
+
+### Practical Usage
+
+````go
+package main
+
+import (
+	validator "github.com/mcctrix/ctrix-validator"
+)
+
+type userData struct {
+	Email    string `json:"email"`
+	Username string `json:"username"`
+	Password string `json:"password"`
+	QuestNum int    `json:"questNum"`
+}
+
+
+func main() {
+	app.Post("/user", func(c fiber.Ctx) error {
+		data := &userData{}
+		if err := json.Unmarshal(c.BodyRaw(), data); err != nil {
+			fmt.Println(err)
+			return fiber.ErrInternalServerError
+		}
+
+		vApp := validator.NewValidator("email", data.Email).Email()
+		vApp.NextField("username", data.Username).Min(5).Max(25)
+		vApp.NextField("password", data.Password).Min(8)
+		vApp.NextField("Quest Number", data.QuestNum).NotRequired().Min(10).Max(20)
+
+		if err := vApp.GetError(); err != nil {
+			for _, errr := range err {
+				fmt.Println("Error from Ctrix Validator: ", errr)
+				return c.JSON(errr)
+			}
+		}
+
+		return c.SendString("Data is Successfully added!")
+	})
+}
+```go
+````
+
+Payload:
+
+```
+{
+  "username": "ctrix",
+   "email": "ctrix@gmail.com",
+  "password": "123456798",
+  "questNum": 25
+}
 ```
 
+Error:
+
+```
+{
+  "Field": "username",
+  "Message": "must be greater than or equal to 5"
+}
+```
