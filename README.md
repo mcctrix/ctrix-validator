@@ -1,0 +1,52 @@
+# CTRIX Validator
+
+A lightweight and chainable Go validation library designed for fast development, focusing on a "first error per field" approach.
+
+## Features
+
+* **Fluent Chaining API:** Apply multiple validation rules to a field in a concise, readable chain.
+* **"First Error Per Field":** Validation for a given field stops after the first error is detected for that field.
+* **Default Required:** All fields are considered required by default.
+* **Optional Fields:** Easily mark fields as optional using `.NotRequired()`.
+* **Graceful `nil` Handling:** Optional fields with `nil` data are skipped entirely, incurring no errors.
+* **Concise Error Reporting:** Collects and returns a slice of `validationError` structs.
+* **Silent Type Mismatch Skipping:** Designed for rapid development, type mismatches during validation (e.g., calling `Email()` on an `int`) will result in the specific validation rule being silently skipped without adding an error.
+
+## Installation
+
+To use this library, you can fetch it using `go get`:
+
+```bash
+go get [github.com/mcctrix/ctrix-validator](https://github.com/mcctrix/ctrix-validator)
+
+```
+
+## Usage
+
+### Basic Usage
+
+```go
+package main
+
+import (
+	"github.com/mcctrix/ctrix-validator"
+)
+
+func main() {
+	validator := validator.NewValidator("email", "test@test.com")
+	validator.NextField("email", "test@test.com").Email().Min(5).Max(10).HasSpecialChar()
+	if len(validator.GetError()) > 0 {
+		for _, err := range validator.GetError() {
+			println(err.Field, err.Message)
+		}
+	}
+}
+```
+
+Output:
+
+```
+email must be a valid email
+```
+
+```go
