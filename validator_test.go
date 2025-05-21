@@ -23,6 +23,21 @@ func TestEmail(t *testing.T) {
 		t.Errorf("Email() should not return an error for valid email")
 	}
 
+	v = NewValidator("field", "ctrix.com")
+	if v.Email().GetError() == nil {
+		t.Errorf("Email() should return an error for invalid email")
+	}
+
+	v = NewValidator("field", "ctrix@.com")
+	if v.Email().GetError() == nil {
+		t.Errorf("Email() should return an error for invalid email")
+	}
+
+	v = NewValidator("field", "@ctrix.com")
+	if v.Email().GetError() == nil {
+		t.Errorf("Email() should return an error for invalid email")
+	}
+
 	v = NewValidator("field", "invalid-email")
 	if v.Email().GetError() == nil {
 		t.Errorf("Email() should return an error for invalid email")
@@ -107,6 +122,16 @@ func TestDate(t *testing.T) {
 		t.Errorf("Date() should not return an error for valid date")
 	}
 
+	v = NewValidator("field", "--")
+	if v.Date().GetError() == nil {
+		t.Errorf("Date() should return an error for invalid date")
+	}
+
+	v = NewValidator("field", "11-12")
+	if v.Date().GetError() == nil {
+		t.Errorf("Date() should return an error for invalid date")
+	}
+
 	v = NewValidator("field", "invalid-date")
 	if v.Date().GetError() == nil {
 		t.Errorf("Date() should return an error for invalid date")
@@ -132,6 +157,11 @@ func TestPhoneNumber(t *testing.T) {
 		t.Errorf("PhoneNumber() should not return an error for valid phone number")
 	}
 
+	v = NewValidator("field", "@+97")
+	if v.PhoneNumber().GetError() == nil {
+		t.Errorf("PhoneNumber() should return an error for invalid phone number")
+	}
+
 	v = NewValidator("field", "invalid-phone")
 	if v.PhoneNumber().GetError() == nil {
 		t.Errorf("PhoneNumber() should return an error for invalid phone number")
@@ -142,6 +172,11 @@ func TestCreditCard(t *testing.T) {
 	v := NewValidator("field", "4111111111111111")
 	if v.CreditCard().GetError() != nil {
 		t.Errorf("CreditCard() should not return an error for valid credit card number")
+	}
+
+	v = NewValidator("field", "0000000000000000")
+	if v.CreditCard().GetError() == nil {
+		t.Errorf("CreditCard() should return an error for invalid credit card number")
 	}
 
 	v = NewValidator("field", "invalid-card")
@@ -156,6 +191,10 @@ func TestIPAddress(t *testing.T) {
 		t.Errorf("IPAddress() should not return an error for valid IP address")
 	}
 
+	v = NewValidator("field", "300.300.0.0")
+	if v.IPAddress().GetError() == nil {
+		t.Errorf("IPAddress() should return an error for invalid IP address")
+	}
 	v = NewValidator("field", "invalid-ip")
 	if v.IPAddress().GetError() == nil {
 		t.Errorf("IPAddress() should return an error for invalid IP address")
@@ -273,6 +312,7 @@ func TestEdgeCases(t *testing.T) {
 		{"zero int", 0, false},
 		{"zero float", 0.0, false},
 		{"special chars only", "@#$%", true},
+		{"special chars with number", "123@#$%", true},
 		{"whitespace only", "   ", false},
 	}
 
